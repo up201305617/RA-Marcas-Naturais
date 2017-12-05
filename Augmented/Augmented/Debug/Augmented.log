@@ -1,0 +1,7 @@
+﻿  main.cpp
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\augmented\augmented\main.cpp(163): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\augmented\augmented\main.cpp(164): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\augmented\augmented\main.cpp(165): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\augmented\augmented\main.cpp(166): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Augmented.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Augmented\Debug\Augmented.exe
+  Augmented.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Augmented\Debug\Augmented.pdb (Partial PDB)
