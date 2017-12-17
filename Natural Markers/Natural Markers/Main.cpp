@@ -21,8 +21,10 @@ int main(int argc, char** argv)
 	string imagePath;
 	string savePath;
 	Preparation p;
+
 	do
 	{
+		system("cls");
 		cout << "Choose one of the following mods:" << endl;
 		cout << "1. Preparation" << endl;
 		cout << "2. Augmentation" << endl;
@@ -41,7 +43,7 @@ int main(int argc, char** argv)
 			p.init();
 			break;
 		case 2:
-			cout << "Augmentation" << endl;
+			cout << "Augmentation Mode" << endl;
 			break;
 		default:
 			break;
