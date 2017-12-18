@@ -147,7 +147,7 @@ int Augmentation::init()
 	this->extractor->compute(scene, keypoints_scene, descriptors_scene);
 	this->extractor->compute(database, keypoints_database, descriptors_database);
 
-	//Matching
+	//Matching descriptors
 	vector<DMatch> good_matches = getGoodMatches(descriptors_database, descriptors_scene);
 
 	if (good_matches.size() < 4)
@@ -171,11 +171,14 @@ int Augmentation::init()
 		vector<unsigned char> inliersMask;
 		Mat homography = findHomography(database_points, scene_points, RANSAC, 1, inliersMask);
 		vector<DMatch> inliers;
+		vector<Point2f> inlier_points;
+
 		for (size_t i = 0; i<inliersMask.size(); i++)
 		{
 			if (inliersMask[i])
 			{
 				inliers.push_back(good_matches[i]);
+				inlier_points.push_back(keypoints_scene[good_matches[i].queryIdx].pt);
 			}
 		}
 	}
