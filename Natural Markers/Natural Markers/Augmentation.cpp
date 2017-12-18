@@ -2,6 +2,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
+using namespace std;
+using namespace cv;
+using namespace cv::xfeatures2d;
+
 Augmentation::Augmentation() {};
 
 Augmentation::~Augmentation() {};
@@ -10,7 +14,7 @@ Augmentation::Augmentation(string i, string o, string d, string e, string m)
 {
 	this->imagePath = i;
 	this->objPath = o;
-
+	
 	if (m == "FLANN")
 	{
 		this->matcher = new FlannBasedMatcher();

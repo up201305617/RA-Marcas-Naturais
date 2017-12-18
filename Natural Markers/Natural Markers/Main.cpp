@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "Preparation.h"
+#include "Augmentation.h"
 #include <direct.h>
 #include <vector>
 #include <conio.h>
