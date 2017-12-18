@@ -21,9 +21,15 @@
     <ClCompile Include="Preparation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Augmentation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Preparation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Augmentation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

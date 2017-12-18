@@ -1,4 +1,4 @@
-﻿  Preparation.cpp
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\preparation.cpp(49): warning C4018: '<': signed/unsigned mismatch
+﻿  Main.cpp
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(48): warning C4018: '<': signed/unsigned mismatch
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.exe
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.pdb (Partial PDB)
