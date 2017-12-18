@@ -6,9 +6,10 @@ Augmentation::Augmentation() {};
 
 Augmentation::~Augmentation() {};
 
-Augmentation::Augmentation(string i, string d, string e, string m)
+Augmentation::Augmentation(string i, string o, string d, string e, string m)
 {
 	this->imagePath = i;
+	this->objPath = o;
 
 	if (m == "FLANN")
 	{
@@ -100,9 +101,9 @@ vector<DMatch> Augmentation::get_good_matches(Mat descriptors_database, Mat desc
 	return good_matches;
 }
 
-bool openImage(const std::string &filename, Mat &image)
+bool openImageAugmentation(const std::string &filename, Mat &image)
 {
-	image = imread(filename);
+	image = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
 
 	if (!image.data)
 	{
@@ -116,17 +117,27 @@ bool openImage(const std::string &filename, Mat &image)
 int Augmentation::init()
 {
 	Mat scene;
+	Mat database;
 	vector<KeyPoint> keypoints_database, keypoints_scene;
 	Mat descriptors_database, descriptors_scene;
 
-	if (!openImage(this->imagePath, scene))
+	if (!openImageAugmentation(this->imagePath, scene))
+	{
+		cout << "Could not open image!" << endl;
+		return -1;
+	}
+
+	if (!openImageAugmentation(this->objPath, database))
 	{
 		cout << "Could not open image!" << endl;
 		return -1;
 	}
 
 	this->detector->detect(scene, keypoints_scene);
+	this->detector->detect(database, keypoints_database);
+
 	this->extractor->compute(scene, keypoints_scene, descriptors_scene);
+	this->extractor->compute(database, keypoints_database, descriptors_database);
 
 	return 0;
 }

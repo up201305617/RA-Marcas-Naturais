@@ -15,9 +15,10 @@ private:
 	Ptr<DescriptorExtractor> extractor;
 	DescriptorMatcher *matcher;
 	string imagePath;
+	string objPath;
 public:
 	Augmentation();
-	Augmentation(string i, string d, string e, string m);
+	Augmentation(string i, string o, string d, string e, string m);
 	~Augmentation();
 	int init();
 	vector< DMatch > get_good_matches(Mat descriptors_database, Mat descriptors_scene);

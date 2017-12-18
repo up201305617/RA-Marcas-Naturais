@@ -8,21 +8,19 @@
 
 using namespace std;
 
-string createDirectory(string folder)
-{
-	char * path = NULL;
-	path = _getcwd(NULL, 0);
-	string fullPath = path + folder;
-	const char * p_path = fullPath.c_str();
-	_mkdir(p_path);
-	return fullPath;
-}
-
 string getFullPath(string folder)
 {
 	char * path = NULL;
 	path = _getcwd(NULL, 0);
 	string fullPath = path + folder;
+	return fullPath;
+}
+
+string createDirectory(string folder)
+{
+	string fullPath = getFullPath(folder);
+	const char * p_path = fullPath.c_str();
+	_mkdir(p_path);
 	return fullPath;
 }
 
@@ -77,12 +75,48 @@ string getDetector(int opt)
 	}
 }
 
+string getExtractor(int opt)
+{
+	if (opt == 1)
+	{
+		return "SIFT";
+	}
+	else if (opt == 2)
+	{
+		return "SURF";
+	}
+	else if (opt == 3)
+	{
+		return "ORB";
+	}
+	else if (opt == 4)
+	{
+		return "BRIEF";
+	}
+	else if (opt == 5)
+	{
+		return "FREAK";
+	}
+}
+
+string getMatcher(int opt)
+{
+	if (opt == 1)
+	{
+		return "FLANN";
+	}
+	else if (opt == 2)
+	{
+		return "BFM";
+	}
+}
+
 int main(int argc, char** argv)
 {
 	int opt;
-	int detector;
-	int extractor;
-	int matcher;
+	int detectorOpt;
+	int extractorOpt;
+	int matcherOpt;
 	string imagePath;
 	string savePath;
 	string scenePath;
@@ -117,14 +151,20 @@ int main(int argc, char** argv)
 			cout << "1. FAST; 2. SIFT; 3. SURF; 4. ORB" << endl;
 			do
 			{
-				cin >> detector;
-			} while (detector > 4 || detector <= 0);
+				cin >> detectorOpt;
+			} while (detectorOpt > 4 || detectorOpt <= 0);
 			cout << "Descriptor Extractor" << endl;
 			cout << "1. SIFT; 2. SURF; 3. ORB; 4. BRIEF; 5. FREAK" << endl;
-			cin >> extractor;
+			do
+			{
+				cin >> extractorOpt;
+			} while (extractorOpt > 5 || extractorOpt <= 0);
 			cout << "Descriptor Matcher" << endl;
 			cout << "1. FLANN; 2. BFM" << endl;
-			cin >> matcher;
+			do
+			{
+				cin >> matcherOpt;
+			} while (matcherOpt > 2 || matcherOpt <= 0);
 			cout << "Path to Image: ";
 			cin >> scenePath;
 			system("pause");
