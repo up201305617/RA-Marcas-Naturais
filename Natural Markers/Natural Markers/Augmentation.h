@@ -20,5 +20,5 @@ public:
 	Augmentation(string i, string o, string d, string e, string m);
 	~Augmentation();
 	int init();
-	vector< cv::DMatch > get_good_matches(cv::Mat descriptors_database, cv::Mat descriptors_scene);
+	vector< cv::DMatch > getGoodMatches(cv::Mat descriptors_database, cv::Mat descriptors_scene);
 };

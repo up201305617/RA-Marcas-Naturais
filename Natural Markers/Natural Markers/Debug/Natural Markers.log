@@ -1,9 +1,6 @@
-﻿  Main.cpp
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(47): warning C4018: '<': signed/unsigned mismatch
-  Augmentation.cpp
+﻿  Augmentation.cpp
   Generating Code...
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(77): warning C4715: 'getDetector': not all control paths return a value
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(113): warning C4715: 'getMatcher': not all control paths return a value
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(101): warning C4715: 'getExtractor': not all control paths return a value
+  Skipping... (no relevant changes detected)
+  Main.cpp
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.exe
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.pdb (Partial PDB)

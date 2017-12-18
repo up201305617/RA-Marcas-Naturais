@@ -73,7 +73,7 @@ Augmentation::Augmentation(string i, string o, string d, string e, string m)
 	}
 }
 
-vector<DMatch> Augmentation::get_good_matches(Mat descriptors_database, Mat descriptors_scene)
+vector<DMatch> Augmentation::getGoodMatches(Mat descriptors_database, Mat descriptors_scene)
 {
 	vector<DMatch> matches;
 	vector<DMatch> good_matches;
@@ -125,23 +125,60 @@ int Augmentation::init()
 	vector<KeyPoint> keypoints_database, keypoints_scene;
 	Mat descriptors_database, descriptors_scene;
 
+	//Open scene image
 	if (!openImageAugmentation(this->imagePath, scene))
 	{
 		cout << "Could not open image!" << endl;
 		return -1;
 	}
 
+	//Open database image
 	if (!openImageAugmentation(this->objPath, database))
 	{
 		cout << "Could not open image!" << endl;
 		return -1;
 	}
 
+	//Detect keypoints
 	this->detector->detect(scene, keypoints_scene);
 	this->detector->detect(database, keypoints_database);
 
+	//Extract descriptors
 	this->extractor->compute(scene, keypoints_scene, descriptors_scene);
 	this->extractor->compute(database, keypoints_database, descriptors_database);
+
+	//Matching
+	vector<DMatch> good_matches = getGoodMatches(descriptors_database, descriptors_scene);
+
+	if (good_matches.size() < 4)
+	{
+		cout << "Does not have enough points." << endl;
+		return -1;
+	}
+	else
+	{
+		//Prepare data to findHomography
+		vector<Point2f> database_points;
+		vector<Point2f> scene_points;
+
+		for (size_t i = 0; i < good_matches.size(); i++)
+		{
+			database_points.push_back(keypoints_database[good_matches[i].queryIdx].pt);
+			scene_points.push_back(keypoints_scene[good_matches[i].trainIdx].pt);
+		}
+
+		// Find homography matrix and get inliers mask    
+		vector<unsigned char> inliersMask;
+		Mat homography = findHomography(database_points, scene_points, RANSAC, 1, inliersMask);
+		vector<DMatch> inliers;
+		for (size_t i = 0; i<inliersMask.size(); i++)
+		{
+			if (inliersMask[i])
+			{
+				inliers.push_back(good_matches[i]);
+			}
+		}
+	}
 
 	return 0;
 }

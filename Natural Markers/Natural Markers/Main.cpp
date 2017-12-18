@@ -131,6 +131,7 @@ int main(int argc, char** argv)
 		cout << "1. Preparation" << endl;
 		cout << "2. Augmentation" << endl;
 		cout << "3. Exit" << endl;
+		cout << "Mode: ";
 		cin >> opt;
 		switch (opt)
 		{
