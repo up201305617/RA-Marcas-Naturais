@@ -57,11 +57,35 @@ vector<string> getDirectoryFiles(string path)
 	return names;
 }
 
+string getDetector(int opt)
+{
+	if (opt == 1)
+	{
+		return "FAST";
+	}
+	else if (opt == 2)
+	{
+		return "SIFT";
+	}
+	else if (opt == 3)
+	{
+		return "SURF";
+	}
+	else if (opt == 4)
+	{
+		return "ORB";
+	}
+}
+
 int main(int argc, char** argv)
 {
 	int opt;
+	int detector;
+	int extractor;
+	int matcher;
 	string imagePath;
 	string savePath;
+	string scenePath;
 	Preparation p;
 	vector<string> names;
 
@@ -86,8 +110,23 @@ int main(int argc, char** argv)
 			p.init();
 			break;
 		case 2:
+			system("cls");
 			names = getDirectoryFiles(getFullPath("\\database"));
 			cout << "Augmentation Mode" << endl;
+			cout << "Feature Detector" << endl;
+			cout << "1. FAST; 2. SIFT; 3. SURF; 4. ORB" << endl;
+			do
+			{
+				cin >> detector;
+			} while (detector > 4 || detector <= 0);
+			cout << "Descriptor Extractor" << endl;
+			cout << "1. SIFT; 2. SURF; 3. ORB; 4. BRIEF; 5. FREAK" << endl;
+			cin >> extractor;
+			cout << "Descriptor Matcher" << endl;
+			cout << "1. FLANN; 2. BFM" << endl;
+			cin >> matcher;
+			cout << "Path to Image: ";
+			cin >> scenePath;
 			system("pause");
 			break;
 		default:
