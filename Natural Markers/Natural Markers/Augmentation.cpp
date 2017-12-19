@@ -1,6 +1,7 @@
 #include "Augmentation.h"
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
+#include "opencv2/imgproc.hpp"
 
 using namespace std;
 using namespace cv;
@@ -169,7 +170,7 @@ int Augmentation::init()
 
 		// Find homography matrix and get inliers mask    
 		vector<unsigned char> inliersMask;
-		Mat homography = findHomography(database_points, scene_points, RANSAC, 1, inliersMask);
+		Mat homography = findHomography(database_points, scene_points, RANSAC, 3, inliersMask);
 		vector<DMatch> inliers;
 		vector<Point2f> inlier_points;
 
@@ -181,6 +182,27 @@ int Augmentation::init()
 				inlier_points.push_back(keypoints_scene[good_matches[i].queryIdx].pt);
 			}
 		}
+
+		std::vector<Point2f> obj_corners(4);
+		std::vector<Point2f> scene_corners(4);
+
+		obj_corners[0] = cvPoint(0, 0);
+		obj_corners[1] = cvPoint(database.cols, 0);
+		obj_corners[2] = cvPoint(database.cols, database.rows);
+		obj_corners[3] = cvPoint(0, database.rows);
+
+		perspectiveTransform(obj_corners, scene_corners, homography);
+
+		Mat result;
+		drawMatches(database, keypoints_database, scene, keypoints_scene, good_matches, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
+
+		line(result, scene_corners[0] + Point2f(database.cols, 0), scene_corners[1] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+		line(result, scene_corners[1] + Point2f(database.cols, 0), scene_corners[2] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+		line(result, scene_corners[2] + Point2f(database.cols, 0), scene_corners[3] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+		line(result, scene_corners[3] + Point2f(database.cols, 0), scene_corners[0] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+		
+		imshow("result", result);
+		waitKey(0);
 	}
 
 	return 0;

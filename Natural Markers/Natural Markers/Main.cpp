@@ -112,6 +112,12 @@ string getMatcher(int opt)
 	}
 }
 
+string buildPathToDatabase(string path, string name)
+{
+	string full = path + "\\" + name;
+	return full;
+}
+
 int main(int argc, char** argv)
 {
 	int opt;
@@ -122,6 +128,7 @@ int main(int argc, char** argv)
 	string savePath;
 	string scenePath;
 	Preparation p;
+	Augmentation a;
 	vector<string> names;
 
 	do
@@ -169,6 +176,8 @@ int main(int argc, char** argv)
 			} while (matcherOpt > 2 || matcherOpt <= 0);
 			cout << "Path to Image: ";
 			cin >> scenePath;
+			a = Augmentation(scenePath, buildPathToDatabase(getFullPath("\\database"),names[0]), getDetector(detectorOpt), getExtractor(extractorOpt), getMatcher(matcherOpt));
+			a.init();
 			system("pause");
 			break;
 		default:

@@ -1,3 +1,7 @@
 ﻿  Augmentation.cpp
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(199): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(200): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(201): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(202): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.exe
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.pdb (Partial PDB)
