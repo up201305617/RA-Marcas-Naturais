@@ -125,7 +125,6 @@ vector<string> buildPathToImage(vector<string> names)
 	for (int i = 0; i < names.size(); i++)
 	{
 		string path = buildPathToDatabase(getFullPath("\\database"), names[i]);
-		cout << path << endl;
 		paths.push_back(path);
 	}
 	return paths;

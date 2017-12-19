@@ -46,15 +46,19 @@ int Preparation::init()
 
 	selectROIs("Preparation", image, rects, false, false);
 	
+	destroyWindow("Preparation");
+
 	for (int i = 0; i < rects.size(); i++)
 	{
 		Mat roi = image(rects[i]);
 		stringstream ss;
-		ss << this->savePath << "\\" << i << ".jpg";
+		cout << "Name the ROI number " << i+1 << endl;
+		string name;
+		cin >> name;
+		ss << this->savePath << "\\" << name << ".jpg";
 		imwrite(ss.str(), roi);
 	}
-
-	destroyWindow("Preparation");
+	
 	waitKey(0);
 	return 0;
 }

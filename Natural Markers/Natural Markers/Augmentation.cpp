@@ -108,7 +108,7 @@ vector<DMatch> Augmentation::getGoodMatches(Mat descriptors_database, Mat descri
 
 bool openImageAugmentation(const std::string &filename, Mat &image)
 {
-	image = imread(filename, CV_LOAD_IMAGE_GRAYSCALE);
+	image = imread(filename);
 
 	if (!image.data)
 	{
@@ -130,9 +130,43 @@ void Augmentation::draw(Mat img, vector<vector <Point2f>> scene_corners)
 	}	
 }
 
+void Augmentation::debugMode(Mat db_image, vector<KeyPoint> db_keypoints, Mat scene, vector<KeyPoint> scene_key, Mat descriptors_database, Mat descriptors_scene)
+{
+	Mat db_output, scene_output, all_matches;
+	vector<DMatch> matches;
+
+	//Draw keypoints of database image
+	drawKeypoints(db_image, db_keypoints, db_output, Scalar::all(-1));
+	imshow("DB_IMAGE", db_output);
+	cout << "1. Detect keypoints of database image." << endl;
+
+	//Draw keypoints of scene image
+	drawKeypoints(scene, scene_key, scene_output, Scalar::all(-1));
+	imshow("SCENE", scene_output);
+	cout << "2. Detect keypoints of scene image." << endl;
+
+	//Draw all matches
+	this->matcher->match(descriptors_database, descriptors_scene, matches);
+	drawMatches(db_image, db_keypoints, scene, scene_key, matches, all_matches, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
+	imshow("ALL MATCHES", all_matches);
+	cout << "3. Matching all keypoints." << endl;
+}
+
+bool checkInliers(vector<Point2f> inlier_points, vector<Point2f> corners, Mat db_image)
+{
+	for (unsigned int i = 0; i < inlier_points.size(); ++i)
+	{
+		if (pointPolygonTest(corners, inlier_points[i], true) < 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 int Augmentation::init()
 {
-	Mat scene;
+	Mat scene, scene_gray;
 	Mat database;
 	vector<KeyPoint> keypoints_database, keypoints_scene;
 	Mat descriptors_database, descriptors_scene;
@@ -144,6 +178,9 @@ int Augmentation::init()
 		return -1;
 	}
 
+	//Convert to grayscale
+	cvtColor(scene, scene_gray, CV_BGR2GRAY);
+
 	//Open database image
 	if (!openImageAugmentation(this->objPath, database))
 	{
@@ -151,12 +188,15 @@ int Augmentation::init()
 		return -1;
 	}
 
+	//Convert to grayscale
+	cvtColor(database, database, CV_BGR2GRAY);
+
 	//Detect keypoints
-	this->detector->detect(scene, keypoints_scene);
+	this->detector->detect(scene_gray, keypoints_scene);
 	this->detector->detect(database, keypoints_database);
 
 	//Extract descriptors
-	this->extractor->compute(scene, keypoints_scene, descriptors_scene);
+	this->extractor->compute(scene_gray, keypoints_scene, descriptors_scene);
 	this->extractor->compute(database, keypoints_database, descriptors_database);
 
 	//Matching descriptors
@@ -190,7 +230,7 @@ int Augmentation::init()
 			if (inliersMask[i])
 			{
 				inliers.push_back(good_matches[i]);
-				inlier_points.push_back(keypoints_scene[good_matches[i].queryIdx].pt);
+				inlier_points.push_back(keypoints_scene[good_matches[i].trainIdx].pt);
 			}
 		}
 
@@ -207,7 +247,9 @@ int Augmentation::init()
 
 		//Draw results
 		Mat result;
-		drawMatches(database, keypoints_database, scene, keypoints_scene, good_matches, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
+		drawMatches(database, keypoints_database, scene_gray, keypoints_scene, inliers, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
+
+		cout << checkInliers(inlier_points, scene_corners, result) << endl;
 
 		line(result, scene_corners[0] + Point2f(database.cols, 0), scene_corners[1] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
 		line(result, scene_corners[1] + Point2f(database.cols, 0), scene_corners[2] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
@@ -215,6 +257,9 @@ int Augmentation::init()
 		line(result, scene_corners[3] + Point2f(database.cols, 0), scene_corners[0] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
 		
 		imshow("result", result);
+
+		//debugMode(database, keypoints_database, scene_gray, keypoints_scene, descriptors_database, descriptors_scene);
+
 		waitKey(0);
 	}
 
