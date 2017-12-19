@@ -21,4 +21,5 @@ public:
 	~Augmentation();
 	int init();
 	vector< cv::DMatch > getGoodMatches(cv::Mat descriptors_database, cv::Mat descriptors_scene);
+	void draw(cv::Mat img, vector<vector<cv::Point2f>> scene_corners);
 };

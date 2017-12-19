@@ -6,6 +6,7 @@
 #include <vector>
 #include <conio.h>
 #include <windows.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -118,6 +119,26 @@ string buildPathToDatabase(string path, string name)
 	return full;
 }
 
+vector<string> buildPathToImage(vector<string> names)
+{
+	vector<string> paths;
+	for (int i = 0; i < names.size(); i++)
+	{
+		string path = buildPathToDatabase(getFullPath("\\database"), names[i]);
+		cout << path << endl;
+		paths.push_back(path);
+	}
+	return paths;
+}
+
+void resetDatabase(vector<string> files)
+{
+	for (int i = 0; i < files.size(); i++)
+	{
+		remove(files[i].c_str());
+	}
+}
+
 int main(int argc, char** argv)
 {
 	int opt;
@@ -137,7 +158,8 @@ int main(int argc, char** argv)
 		cout << "Choose one of the following mods:" << endl;
 		cout << "1. Preparation" << endl;
 		cout << "2. Augmentation" << endl;
-		cout << "3. Exit" << endl;
+		cout << "3. Reset Database" << endl;
+		cout << "4. Exit" << endl;
 		cout << "Mode: ";
 		cin >> opt;
 		switch (opt)
@@ -155,6 +177,7 @@ int main(int argc, char** argv)
 		case 2:
 			system("cls");
 			names = getDirectoryFiles(getFullPath("\\database"));
+			buildPathToImage(names);
 			cout << "Augmentation Mode" << endl;
 			cout << "Feature Detector" << endl;
 			cout << "1. FAST; 2. SIFT; 3. SURF; 4. ORB" << endl;
@@ -180,10 +203,13 @@ int main(int argc, char** argv)
 			a.init();
 			system("pause");
 			break;
+		case 3:
+			resetDatabase(buildPathToImage(names));
+			break;
 		default:
 			break;
 		}
-	} while (opt!=3);
+	} while (opt != 4 || opt > 4 || opt < 0);
 	
 	system("pause");
 	return 0;

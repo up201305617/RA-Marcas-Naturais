@@ -119,6 +119,17 @@ bool openImageAugmentation(const std::string &filename, Mat &image)
 	return true;
 }
 
+void Augmentation::draw(Mat img, vector<vector <Point2f>> scene_corners)
+{
+	for (int i = 0; i < scene_corners.size(); i++)
+	{
+		line(img, scene_corners[i][0], scene_corners[i][1], Scalar(255, 0, 0), 4);
+		line(img, scene_corners[i][1], scene_corners[i][2], Scalar(255, 0, 0), 4);
+		line(img, scene_corners[i][2], scene_corners[i][3], Scalar(255, 0, 0), 4);
+		line(img, scene_corners[i][3], scene_corners[i][0], Scalar(255, 0, 0), 4);
+	}	
+}
+
 int Augmentation::init()
 {
 	Mat scene;
@@ -183,6 +194,7 @@ int Augmentation::init()
 			}
 		}
 
+		//Apply homography to the object corners position to match the one in the scene
 		std::vector<Point2f> obj_corners(4);
 		std::vector<Point2f> scene_corners(4);
 
@@ -193,6 +205,7 @@ int Augmentation::init()
 
 		perspectiveTransform(obj_corners, scene_corners, homography);
 
+		//Draw results
 		Mat result;
 		drawMatches(database, keypoints_database, scene, keypoints_scene, good_matches, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
 
