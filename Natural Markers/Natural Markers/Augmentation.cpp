@@ -88,8 +88,10 @@ vector<DMatch> Augmentation::getGoodMatches(Mat descriptors_database, Mat descri
 	double max_dist = 0;
 	double min_dist = 100;
 
+	//All matches
 	this->matcher->match(descriptors_database, descriptors_scene, matches);
 
+	//Quick calculation of max and min distances between keypoints
 	for (unsigned i = 0; i < matches.size(); i++)
 	{
 		double dist = matches[i].distance;
@@ -101,6 +103,7 @@ vector<DMatch> Augmentation::getGoodMatches(Mat descriptors_database, Mat descri
 			max_dist = dist;
 	}
 
+	//Get good matches (i.e. whose distance is less than 3*min_dist )
 	for (unsigned i = 0; i < matches.size(); i++)
 	{
 		if (matches[i].distance < 3 * min_dist)
@@ -191,6 +194,12 @@ int Augmentation::init()
 	//Convert to grayscale
 	cvtColor(scene, scene_gray, CV_BGR2GRAY);
 
+	//Detect keypoints of scene image
+	this->detector->detect(scene_gray, keypoints_scene);
+
+	//Extract descriptors of scene image
+	this->extractor->compute(scene_gray, keypoints_scene, descriptors_scene);
+
 	//Analyse all images on database
 	for (int i = 0; i < this->paths.size(); i++)
 	{
@@ -204,12 +213,10 @@ int Augmentation::init()
 		//Convert to grayscale
 		cvtColor(database, database, CV_BGR2GRAY);
 
-		//Detect keypoints
-		this->detector->detect(scene_gray, keypoints_scene);
+		//Detect keypoints of database image
 		this->detector->detect(database, keypoints_database);
 
-		//Extract descriptors
-		this->extractor->compute(scene_gray, keypoints_scene, descriptors_scene);
+		//Extract descriptors of database image
 		this->extractor->compute(database, keypoints_database, descriptors_database);
 
 		//Debug Mode
@@ -265,7 +272,7 @@ int Augmentation::init()
 			
 			if (this->testMode)
 			{
-				drawMatches(database, keypoints_database, scene_gray, keypoints_scene, inliers, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
+				drawMatches(database, keypoints_database, scene_gray, keypoints_scene, good_matches, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
 
 				line(result, scene_corners[0] + Point2f(database.cols, 0), scene_corners[1] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
 				line(result, scene_corners[1] + Point2f(database.cols, 0), scene_corners[2] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
