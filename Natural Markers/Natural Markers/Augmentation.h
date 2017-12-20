@@ -14,13 +14,16 @@ private:
 	cv::Ptr<cv::DescriptorExtractor> extractor;
 	cv::DescriptorMatcher *matcher;
 	string imagePath;
-	string objPath;
+	vector<string> imgNames;
+	vector<string> paths;
 public:
 	Augmentation();
-	Augmentation(string i, string o, string d, string e, string m);
+	Augmentation(string i, vector<string> im, string d, string e, string m, vector<string> p);
 	~Augmentation();
 	int init();
 	vector< cv::DMatch > getGoodMatches(cv::Mat descriptors_database, cv::Mat descriptors_scene);
-	void draw(cv::Mat img, vector<vector<cv::Point2f>> scene_corners);
+	void draw(cv::Mat img, vector<cv::Point2f> scene_corners);
 	void debugMode(cv::Mat db_image, vector<cv::KeyPoint> db_keypoints, cv::Mat scene, vector<cv::KeyPoint> scene_key, cv::Mat descriptors_database, cv::Mat descriptors_scene);
+	bool checkInliers(vector<cv::Point2f> inlier_points, vector<cv::Point2f> corners);
+	bool openImageAugmentation(const std::string &filename, cv::Mat &image);
 };

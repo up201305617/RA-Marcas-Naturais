@@ -1,8 +1,9 @@
-﻿  Augmentation.cpp
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(124): warning C4018: '<': signed/unsigned mismatch
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(254): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(255): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(256): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(257): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+﻿  Main.cpp
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(48): warning C4018: '<': signed/unsigned mismatch
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(125): warning C4018: '<': signed/unsigned mismatch
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(135): warning C4018: '<': signed/unsigned mismatch
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(78): warning C4715: 'getDetector': not all control paths return a value
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(102): warning C4715: 'getExtractor': not all control paths return a value
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(114): warning C4715: 'getMatcher': not all control paths return a value
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.exe
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.pdb (Partial PDB)

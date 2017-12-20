@@ -150,6 +150,7 @@ int main(int argc, char** argv)
 	Preparation p;
 	Augmentation a;
 	vector<string> names;
+	vector<string> paths;
 
 	do
 	{
@@ -176,7 +177,7 @@ int main(int argc, char** argv)
 		case 2:
 			system("cls");
 			names = getDirectoryFiles(getFullPath("\\database"));
-			buildPathToImage(names);
+			paths = buildPathToImage(names);
 			cout << "Augmentation Mode" << endl;
 			cout << "Feature Detector" << endl;
 			cout << "1. FAST; 2. SIFT; 3. SURF; 4. ORB" << endl;
@@ -198,12 +199,15 @@ int main(int argc, char** argv)
 			} while (matcherOpt > 2 || matcherOpt <= 0);
 			cout << "Path to Image: ";
 			cin >> scenePath;
-			a = Augmentation(scenePath, buildPathToDatabase(getFullPath("\\database"),names[0]), getDetector(detectorOpt), getExtractor(extractorOpt), getMatcher(matcherOpt));
+			a = Augmentation(scenePath, names, getDetector(detectorOpt), getExtractor(extractorOpt), getMatcher(matcherOpt), paths);
 			a.init();
 			system("pause");
 			break;
 		case 3:
-			resetDatabase(buildPathToImage(names));
+			names = getDirectoryFiles(getFullPath("\\database"));
+			paths = buildPathToImage(names);
+			resetDatabase(paths);
+			system("pause");
 			break;
 		default:
 			break;
