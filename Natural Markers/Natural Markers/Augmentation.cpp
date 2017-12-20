@@ -14,11 +14,12 @@ Augmentation::Augmentation() {};
 Augmentation::~Augmentation() {};
 
 //Constructor
-Augmentation::Augmentation(string i, vector<string> im, string d, string e, string m, vector<string> p)
+Augmentation::Augmentation(string i, vector<string> im, string d, string e, string m, vector<string> p, bool t)
 {
 	this->imagePath = i;
 	this->imgNames = im;
 	this->paths = p;
+	this->testMode = t;
 
 	if (m == "FLANN")
 	{
@@ -125,7 +126,7 @@ bool Augmentation::openImageAugmentation(const std::string &filename, Mat &image
 	return true;
 }
 
-//Draw the region of interest
+//Draw the region of interest on img
 void Augmentation::draw(Mat img, vector <Point2f> scene_corners)
 {
 	line(img, scene_corners[0], scene_corners[1], Scalar(255, 0, 0), 4);
@@ -135,26 +136,28 @@ void Augmentation::draw(Mat img, vector <Point2f> scene_corners)
 }
 
 //Mode that shows all steps
-void Augmentation::debugMode(Mat db_image, vector<KeyPoint> db_keypoints, Mat scene, vector<KeyPoint> scene_key, Mat descriptors_database, Mat descriptors_scene)
+void Augmentation::debugMode(Mat db_image, vector<KeyPoint> db_keypoints, Mat scene, vector<KeyPoint> scene_key, Mat descriptors_database, Mat descriptors_scene, int i)
 {
 	Mat db_output, scene_output, all_matches;
 	vector<DMatch> matches;
 
 	//Draw keypoints of scene image
+	cout << "Detect keypoints of scene image." << endl;
 	drawKeypoints(scene, scene_key, scene_output, Scalar::all(-1));
-	imshow("SCENE", scene_output);
-	cout << "1. Detect keypoints of scene image." << endl;
+	imshow("Scene", scene_output);
 
 	//Draw keypoints of database image
+	cout << "Detect keypoints of database image: " << this->imgNames[i] << endl;
 	drawKeypoints(db_image, db_keypoints, db_output, Scalar::all(-1));
-	imshow("DB_IMAGE", db_output);
-	cout << "2. Detect keypoints of database image." << endl;
+	imshow("Keypoints of "+this->imgNames[i], db_output);
+	waitKey(1);
 
 	//Draw all matches
+	cout << "Matching all keypoints between scene and " << this->imgNames[i] << endl;
 	this->matcher->match(descriptors_database, descriptors_scene, matches);
 	drawMatches(db_image, db_keypoints, scene, scene_key, matches, all_matches, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
-	imshow("ALL MATCHES", all_matches);
-	cout << "3. Matching all keypoints." << endl;
+	imshow("All Matches of "+this->imgNames[i], all_matches);
+	waitKey(1);
 }
 
 //Check if inliners are inside the corners of the possible region of interest
@@ -168,11 +171,6 @@ bool Augmentation::checkInliers(vector<Point2f> inlier_points, vector<Point2f> c
 		}
 	}
 	return true;
-}
-
-void getNameFromPath(string path)
-{
-	
 }
 
 //Init the augmentation program
@@ -213,6 +211,12 @@ int Augmentation::init()
 		//Extract descriptors
 		this->extractor->compute(scene_gray, keypoints_scene, descriptors_scene);
 		this->extractor->compute(database, keypoints_database, descriptors_database);
+
+		//Debug Mode
+		if (this->testMode)
+		{
+			debugMode(database, keypoints_database, scene_gray, keypoints_scene, descriptors_database, descriptors_scene,i);
+		}
 
 		//Matching descriptors
 		vector<DMatch> good_matches = getGoodMatches(descriptors_database, descriptors_scene);
@@ -259,28 +263,30 @@ int Augmentation::init()
 
 			perspectiveTransform(obj_corners, scene_corners, homography);
 			
-			drawMatches(database, keypoints_database, scene_gray, keypoints_scene, inliers, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
+			if (this->testMode)
+			{
+				drawMatches(database, keypoints_database, scene_gray, keypoints_scene, inliers, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
 
+				line(result, scene_corners[0] + Point2f(database.cols, 0), scene_corners[1] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+				line(result, scene_corners[1] + Point2f(database.cols, 0), scene_corners[2] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+				line(result, scene_corners[2] + Point2f(database.cols, 0), scene_corners[3] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+				line(result, scene_corners[3] + Point2f(database.cols, 0), scene_corners[0] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+
+				imshow(this->imgNames[i], result);
+				waitKey(1);
+			}
+
+			//Draw rectangle on scene, only if all inliners are in scene_corners
 			if (checkInliers(inlier_points, scene_corners))
 			{
 				draw(scene, scene_corners);
 			}
-
-			line(result, scene_corners[0] + Point2f(database.cols, 0), scene_corners[1] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
-			line(result, scene_corners[1] + Point2f(database.cols, 0), scene_corners[2] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
-			line(result, scene_corners[2] + Point2f(database.cols, 0), scene_corners[3] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
-			line(result, scene_corners[3] + Point2f(database.cols, 0), scene_corners[0] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
-
-			imshow(this->imgNames[i], result);
-			waitKey(0);
 		}
 	}
 
 	imshow("Final", scene);
 	waitKey(0);
+	destroyAllWindows();
 
 	return 0;
-	//debugMode(database, keypoints_database, scene_gray, keypoints_scene, descriptors_database, descriptors_scene);
 }
-
-	

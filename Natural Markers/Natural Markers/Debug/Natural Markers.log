@@ -1,9 +1,17 @@
 ﻿  Main.cpp
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(48): warning C4018: '<': signed/unsigned mismatch
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(125): warning C4018: '<': signed/unsigned mismatch
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(135): warning C4018: '<': signed/unsigned mismatch
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(78): warning C4715: 'getDetector': not all control paths return a value
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(102): warning C4715: 'getExtractor': not all control paths return a value
-c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(114): warning C4715: 'getMatcher': not all control paths return a value
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(51): warning C4018: '<': signed/unsigned mismatch
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(146): warning C4018: '<': signed/unsigned mismatch
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(157): warning C4018: '<': signed/unsigned mismatch
+  Augmentation.cpp
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(195): warning C4018: '<': signed/unsigned mismatch
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(270): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(271): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(272): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\augmentation.cpp(273): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(82): warning C4715: 'getDetector': not all control paths return a value
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(107): warning C4715: 'getExtractor': not all control paths return a value
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(120): warning C4715: 'getMatcher': not all control paths return a value
+c:\users\jorge\desktop\feup\5º ano\realidade virtual e aumentada\2º projeto\natural markers\natural markers\main.cpp(133): warning C4715: 'getMode': not all control paths return a value
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.exe
   Natural Markers.vcxproj -> C:\Users\Jorge\Desktop\FEUP\5º Ano\Realidade Virtual e Aumentada\2º Projeto\Natural Markers\Debug\Natural Markers.pdb (Partial PDB)

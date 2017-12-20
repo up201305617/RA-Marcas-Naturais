@@ -10,16 +10,20 @@ using namespace std;
 using namespace cv;
 using namespace cv::xfeatures2d;
 
+//Constructor
 Preparation::Preparation(std::string i, std::string p)
 {
 	this->image = i;
 	this->savePath = p;
 }
 
+//Default Constructor
 Preparation::Preparation() {}
 
+//Destructor
 Preparation::~Preparation(void) {}
 
+//Read image
 bool openImage(const std::string &filename, Mat &image)
 {
 	image = imread(filename);
@@ -33,21 +37,25 @@ bool openImage(const std::string &filename, Mat &image)
 	return true;
 }
 
+//Start preparation
 int Preparation::init()
 {
 	Mat image;
 	vector< Rect > rects;
 	
+	//Open image
 	if (!openImage(this->image, image))
 	{
 		cout << "Could not open image!" << endl;
 		return -1;
 	}
 
+	//Select regions of interest
 	selectROIs("Preparation", image, rects, false, false);
 	
 	destroyWindow("Preparation");
 
+	//Save regions of interest
 	for (int i = 0; i < rects.size(); i++)
 	{
 		Mat roi = image(rects[i]);
