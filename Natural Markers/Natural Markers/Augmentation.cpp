@@ -130,12 +130,21 @@ bool Augmentation::openImageAugmentation(const std::string &filename, Mat &image
 }
 
 //Draw the region of interest on img
-void Augmentation::draw(Mat img, vector <Point2f> scene_corners)
+void Augmentation::draw(Mat img, vector <Point2f> scene_corners, string name)
 {
 	line(img, scene_corners[0], scene_corners[1], Scalar(255, 0, 0), 4);
 	line(img, scene_corners[1], scene_corners[2], Scalar(255, 0, 0), 4);
 	line(img, scene_corners[2], scene_corners[3], Scalar(255, 0, 0), 4);
 	line(img, scene_corners[3], scene_corners[0], Scalar(255, 0, 0), 4);
+	
+	if (img.cols / 2 < scene_corners[0].y)
+	{
+		putText(img, name.erase(name.length() - 4), Point(scene_corners[3].x, scene_corners[3].y + 15), 1, 1, Scalar(255, 0, 0), 1, 8, false);
+	}
+	else
+	{
+		putText(img, name.erase(name.length() - 4), Point(scene_corners[0].x, scene_corners[0].y - 15), 1, 1, Scalar(255, 0, 0), 1, 8, false);
+	}
 }
 
 //Mode that shows all steps
@@ -179,7 +188,7 @@ bool Augmentation::checkInliers(vector<Point2f> inlier_points, vector<Point2f> c
 //Init the augmentation program
 int Augmentation::init()
 {
-	Mat scene, scene_gray, result;
+	Mat scene, scene_gray, result, result_inliners;
 	Mat database;
 	vector<KeyPoint> keypoints_database, keypoints_scene;
 	Mat descriptors_database, descriptors_scene;
@@ -272,6 +281,7 @@ int Augmentation::init()
 			
 			if (this->testMode)
 			{
+				//Draw the good matches
 				drawMatches(database, keypoints_database, scene_gray, keypoints_scene, good_matches, result, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
 
 				line(result, scene_corners[0] + Point2f(database.cols, 0), scene_corners[1] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
@@ -279,18 +289,30 @@ int Augmentation::init()
 				line(result, scene_corners[2] + Point2f(database.cols, 0), scene_corners[3] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
 				line(result, scene_corners[3] + Point2f(database.cols, 0), scene_corners[0] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
 
-				imshow(this->imgNames[i], result);
+				imshow(this->imgNames[i]+" good matches", result);
+				waitKey(1);
+
+				//Draw only the inliners
+				drawMatches(database, keypoints_database, scene_gray, keypoints_scene, inliers, result_inliners, Scalar::all(-1), CV_RGB(255, 255, 255), Mat(), 2);
+
+				line(result_inliners, scene_corners[0] + Point2f(database.cols, 0), scene_corners[1] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+				line(result_inliners, scene_corners[1] + Point2f(database.cols, 0), scene_corners[2] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+				line(result_inliners, scene_corners[2] + Point2f(database.cols, 0), scene_corners[3] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+				line(result_inliners, scene_corners[3] + Point2f(database.cols, 0), scene_corners[0] + Point2f(database.cols, 0), Scalar(0, 255, 0), 4);
+
+				imshow(this->imgNames[i]+" inliners", result_inliners);
 				waitKey(1);
 			}
 
 			//Draw rectangle on scene, only if all inliners are in scene_corners
 			if (checkInliers(inlier_points, scene_corners))
 			{
-				draw(scene, scene_corners);
+				draw(scene, scene_corners, this->imgNames[i]);
 			}
 		}
 	}
 
+	//Show Final Result
 	imshow("Final", scene);
 	waitKey(0);
 	destroyAllWindows();

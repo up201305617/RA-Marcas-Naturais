@@ -23,7 +23,7 @@ public:
 	~Augmentation();
 	int init();
 	vector< cv::DMatch > getGoodMatches(cv::Mat descriptors_database, cv::Mat descriptors_scene);
-	void draw(cv::Mat img, vector<cv::Point2f> scene_corners);
+	void draw(cv::Mat img, vector<cv::Point2f> scene_corners, string name);
 	void debugMode(cv::Mat db_image, vector<cv::KeyPoint> db_keypoints, cv::Mat scene, vector<cv::KeyPoint> scene_key, cv::Mat descriptors_database, cv::Mat descriptors_scene, int i);
 	bool checkInliers(vector<cv::Point2f> inlier_points, vector<cv::Point2f> corners);
 	bool openImageAugmentation(const std::string &filename, cv::Mat &image);
